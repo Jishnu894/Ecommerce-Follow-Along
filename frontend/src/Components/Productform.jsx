@@ -1,177 +1,113 @@
-import React, { useState } from 'react';
-import { AiOutlinePlusCircle } from 'react-icons/ai';
-import axios from 'axios';
-import { Button, Input } from '@chakra-ui/react';
+import axios from "axios";
+import React, { useState } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
-export const Productform = () => {
-    const [name, setName] = useState('');
-    const [price, setPrice] = useState('');
-    const [description, setDescription] = useState('');
-    const [category, setCategory] = useState('');
-    const [stock, setStock] = useState('');
-    const [tag, setTag] = useState('');
-    const [email, setEmail] = useState('');
-    const [preview, setPreview] = useState([]);
-    const [image, setImage] = useState([]);
+export const ProductForm = () => {
+  const [name, setName] = useState("");
+  const [price, setPrice] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [stock, setStock] = useState("");
+  const [tag, setTag] = useState("");
+  const [email, setEmail] = useState("");
 
-    const handleImageChange = (e) => {
-        const files = Array.from(e.target.files);
-        setImage((prev) => [...prev, ...files]);
-        const imagePreviews = files.map((file) => URL.createObjectURL(file));
-        setPreview((prev) => [...prev, ...imagePreviews]);
-    };
+  const [preview, setPreview] = useState([]);
+  const [image, setImage] = useState([]);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('price', price);
-        formData.append('description', description);
-        formData.append('category', category);
-        formData.append('stock', stock);
-        formData.append('tag', tag);
-        image.forEach((img) => formData.append('images[]', img));
+  const handleImage = (e) => {
+    const files = Array.from(e.target.files);
+    setImage((prev) => [...prev, ...files]);
 
-        try {
-            const res = await axios.post('http://localhost:5000/create-product', formData, {
-                headers: { 'Content-Type': 'multipart/form-data' }
-            });
+    const imgPreviews = files.map((file) => URL.createObjectURL(file));
+    setPreview((prev) => [...prev, ...imgPreviews]);
+  };
 
-            if (res.status === 200) {
-                setEmail('');
-                setName('');
-                setPrice('');
-                setDescription('');
-                setCategory('');
-                setStock('');
-                setTag('');
-                setImage([]);
-                setPreview([]);
-                alert('Product Added Successfully');
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("email", email);
+    formData.append("price", price);
+    formData.append("description", description);
+    formData.append("category", category);
+    formData.append("stock", stock);
+    formData.append("tag", tag);
 
-    return (
-        <div className="p-4">
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Email <span className='text-red-500'>*</span></label>
-                    <input
-                        type='email'
-                        value={email}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder='Enter Your Email'
-                        required
-                    />
-                </div>
+    image.forEach((img) => formData.append("image", img, img.name));
 
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Name <span className='text-red-500'>*</span></label>
-                    <input
-                        type='text'
-                        value={name}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setName(e.target.value)}
-                        placeholder='Enter Product Name'
-                        required
-                    />
-                </div>
+    try {
+      const res = await axios.post("http://localhost:5000/create-product", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Price <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='text'
-                        value={price}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setPrice(e.target.value)}
-                        placeholder='Enter Product Price'
-                        required
-                    />
-                </div>
+      if (res.status === 200) {
+        alert("Product Added Successfully");
 
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Description <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='text'
-                        value={description}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setDescription(e.target.value)}
-                        placeholder='Enter Product Description'
-                        required
-                    />
-                </div>
+        setEmail("");
+        setName("");
+        setPrice("");
+        setDescription("");
+        setCategory("");
+        setStock("");
+        setTag("");
+        setImage([]);
+        setPreview([]);
+      }
+    } catch (error) {
+      console.error("Error adding product:", error);
+      alert("Failed to add product");
+    }
+  };
 
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Category <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='text'
-                        value={category}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setCategory(e.target.value)}
-                        placeholder='Enter Product Category'
-                        required
-                    />
-                </div>
-
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Stock <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='text'
-                        value={stock}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setStock(e.target.value)}
-                        placeholder='Enter Product Stock'
-                        required
-                    />
-                </div>
-
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Tag <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='text'
-                        value={tag}
-                        className='w-full p-2 border rounded'
-                        onChange={(e) => setTag(e.target.value)}
-                        placeholder='Enter Product Tag'
-                        required
-                    />
-                </div>
-
-                <div className='mt-4'>
-                    <label className='pb-1 block'>Upload Images <span className='text-red-500'>*</span></label>
-                    <Input
-                        type='file'
-                        name='image'
-                        id='upload'
-                        className='hidden'
-                        multiple
-                        onChange={handleImageChange}
-                        required
-                    />
-                    <label htmlFor="upload" className='cursor-pointer'>
-                        <AiOutlinePlusCircle size={30} className='text-blue-500' />
-                    </label>
-
-                    <div className='flex flex-wrap mt-2'>
-                        {preview.map((img, index) => (
-                            <div key={index} className='relative m-2'>
-                                <img src={img} alt="preview" className='w-32 h-32 object-cover rounded-lg shadow-md' />
-                            </div>
-                        ))}
-                    </div>
-                </div>
-
-                <Button colorScheme='blue'>
-                    Submit
-                    </Button>
-            </form>
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>Email</label>
+          <input type="email" required onChange={(e) => setEmail(e.target.value)} value={email} placeholder="Enter Your Email" />
         </div>
-    );
-}
+        <div>
+          <label>Product Name</label>
+          <input type="text" required onChange={(e) => setName(e.target.value)} value={name} placeholder="Enter Product Name" />
+        </div>
+        <div>
+          <label>Product Price</label>
+          <input type="number" required onChange={(e) => setPrice(e.target.value)} value={price} placeholder="Enter Product Price" />
+        </div>
+        <div>
+          <label>Product Description</label>
+          <input type="text" required onChange={(e) => setDescription(e.target.value)} value={description} placeholder="Enter Description" />
+        </div>
+        <div>
+          <label>Product Category</label>
+          <input type="text" required onChange={(e) => setCategory(e.target.value)} value={category} placeholder="Enter Category" />
+        </div>
+        <div>
+          <label>Product Stock</label>
+          <input type="number" required onChange={(e) => setStock(e.target.value)} value={stock} placeholder="Enter Stock" />
+        </div>
+        <div>
+          <label>Product Tag</label>
+          <input type="text" required onChange={(e) => setTag(e.target.value)} value={tag} placeholder="Enter Tag" />
+        </div>
 
-export default Productform;
+        <div>
+          <label>Product Image</label>
+          <input type="file" multiple required onChange={handleImage} id="upload" />
+        </div>
+        <div>
+          <AiOutlinePlusCircle htmlFor="upload" />
+        </div>
+        <div>
+          {preview.map((img, index) => (
+            <img src={img} key={index} alt="preview" style={{ height: "100px" }} />
+          ))}
+        </div>
+
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Submit</button>
+      </form>
+    </div>
+  );
+};
