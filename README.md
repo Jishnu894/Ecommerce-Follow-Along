@@ -55,7 +55,7 @@ In the **`index.js`** file, we imported Express, initialized the app, and set up
 creating user model, user controller and Multer support
 
 
-Milestone 6
+ ## Milestone 6
 : Backend Structure and Initial Setup** Password Encryption and User Data Storage
 
 Password Hashing:
@@ -63,14 +63,17 @@ Password Hashing:
 Implement bcrypt to hash the user's password during the signup process. Ensure that the hashed password is stored in the database instead of the plaintext version to enhance security. User Data Storage:
 
 Save all relevant user information (e.g., name, email, etc.) in the database. Maintain the integrity and confidentiality of the password by ensuring it remains encrypted throughout the process.
-Milestone 7
+
+--- 
+
+## Milestone 7
 Create Login Endpoint:
 
 Accept user credentials (email/username and password). Retrieve the corresponding user from the database. Validate Password:
 
 Use bcrypt to hash the entered password. Compare it with the stored hashed password for authentication.
 
-Milestone 8
+## Milestone 8
 In this milestone we created two components called Home.jsx and productcard.jsx. product card.jsx is the template used in home.jsx to map out all the products and display them. We also added routes to the home.jsx to display it when the page loads. Based on the number of products the products are mapped and displayed.
 
 
@@ -219,3 +222,113 @@ In the frontend, add a delete button to each product card.
 When the delete button is clicked, send the product ID to the server endpoint for deletion.
 
 This milestone enhances the ability to manage product listings by allowing users to remove unwanted products efficiently.
+
+
+
+### **Milestone 15: Create and Implement Navbar**
+
+#### Learning Goals 🎯
+By the end of this milestone, you will:
+
+- Learn how to create a navigation (Nav) component with links to all pages.
+- Understand how to make the Navbar responsive for all screen sizes.
+- Implement smooth navigation across multiple pages in your application.
+
+#### Steps for Milestone 15 📝
+
+1. **Create the Nav Component**:
+   - Design and implement a Nav component that includes links to the following pages:
+     - **Home**
+     - **My Products**
+     - **Add Product**
+     - **Cart**
+
+2. **Make the Navbar Responsive**:
+   - Use CSS (or a CSS framework like Tailwind CSS) to make the Navbar adapt to various screen sizes, ensuring it works well on mobile, tablet, and desktop views.
+
+3. **Integrate Navbar into All Pages**:
+   - Add the Nav component to all relevant pages in your application, ensuring consistent navigation throughout.
+
+4. **Smooth Navigation**:
+   - Ensure smooth transitions between pages using React Router for seamless navigation without full page reloads.
+
+This milestone will help you understand how to build a dynamic and responsive navbar, improving user experience by making it easier to navigate through your e-commerce platform.
+
+---
+
+
+---
+
+### **Milestone 16: Display Individual Product Page with Quantity and Add to Cart**
+
+#### Learning Goals 🎯
+By the end of this milestone, you will:
+
+- Learn how to create a new page to display detailed information for each product.
+- Understand how to implement a quantity selector and an "Add to Cart" button.
+
+#### Steps for Milestone 16 📝
+
+1. **Create a New Product Page**:
+   - Design and implement a new page that displays all the details of a single product, such as the name, description, price, and images.
+
+2. **Add Quantity Selector**:
+   - Implement a quantity selector that allows users to choose the number of items they want to add to their cart.
+
+3. **Add "Add to Cart" Button**:
+   - Add an "Add to Cart" button that, when clicked, adds the selected quantity of the product to the user's shopping cart.
+
+This milestone is essential for enhancing your e-commerce platform, as it enables users to view individual product details and add items to their cart efficiently.
+
+---
+
+## Milestone 19: Build the Cart Page with Quantity Controls
+Learning Goals 🎯
+By the end of this milestone, you will:
+
+Learn how to create a cart page that displays products using the endpoint built in Milestone 18.
+Implement increase (+) and decrease (-) buttons to adjust product quantity.
+Write a backend endpoint to handle quantity updates dynamically.
+
+## Steps for Milestone 19 📝
+Create the Cart Page (Frontend)
+
+Design and implement a cart page that fetches and displays products added to the cart.
+Add Quantity Controls
+
+For each product, add "+" and "−" buttons to increase or decrease the quantity.
+Ensure the quantity updates dynamically without requiring a page refresh.
+Create Backend Endpoints for Quantity Updates
+
+Write an API endpoint to handle requests for increasing and decreasing product quantity.
+Ensure that the quantity cannot go below 1 and updates are reflected in the database.
+This milestone is crucial in enhancing the cart functionality, allowing users to manage their orders more effectively. 🚀
+
+---
+
+Milestone 20: Build the User Profile Page with Address Management
+Learning Goals 🎯
+By the end of this milestone, you will:
+
+Learn how to create a backend endpoint that retrieves and sends user data via email.
+Build a frontend profile page that displays user information.
+Display the profile photo, name, email, and addresses dynamically.
+Steps for Milestone 20 📝
+Create a Backend Endpoint to Retrieve User Data
+
+Develop an API endpoint that fetches all user details from the database.
+Implement functionality to send user data via email if required.
+Build the Frontend Profile Page
+
+Design a profile page to display user details.
+Display User Information
+
+In one section, show the profile photo, name, and email.
+Manage Addresses Dynamically
+
+In another section, list all saved addresses.
+If no addresses are found, display "No address found".
+Add a button labeled "Add Address" for users to input new addresses.
+This milestone helps in creating a user-friendly profile management system, enhancing the overall experience. 🚀
+
+---
