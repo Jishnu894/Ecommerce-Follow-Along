@@ -1,132 +1,53 @@
-const {Router}= require("express");
-const userModel = require("../Model/userModel");
-const bcrypt = require("bcrypt");
-const { upload } = require("../../multer");
-const jwt = require("jsonwebtoken");
-require("dotenv").config({path:"./src/config/.env"});
+import React, { useState } from "react";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-const secret = process.env.private_key;
+const AddressForm = () => {
+  const navigate = useNavigate();
+  const [addressData, setAddressData] = useState({
+    country: "",
+    city: "",
+    address1: "",
+    address2: "",
+    zipCode: "",
+    addressType: "",
+  });
 
-const userrouter = Router();
+  const email = "user@example.com"; // Replace with dynamic email if needed
 
+  const handleChange = (e) => {
+    setAddressData({ ...addressData, [e.target.name]: e.target.value });
+  };
 
-userrouter.post("/create-user",upload.single("file"), async(req,res)=>{
-    const {name, email, password} = req.body;
-    const userEmail = await userModel.findOne({email});
-    if (userEmail) {
-        return next(new ErrorHandler("User already exists", 400));
-      }
-
-      // const filename = req.file.filename ; 
-      // const fileUrl = path.join(filename);
-
-      bcrypt.hash(password, 10, async function(err, hash) {
-      
-      await userModel.create({
-        name:name,
-        email:email,
-        password: hash,
-        // avatar:fileUrl
-      })
-    })
-
-
-});
-
-userrouter.post("/login", async(req,res)=>{
-    const {email, password} = req.body;
-    const check=await userModel.findOne({email:email});
-    console .log(check);
-
-    if (!check) {
-        return res.status(400).json({message:"User not found"});
-    }
-    bcrypt.compare(password,check.password ,function(err, result) {
-      if(err){
-        return res.status(400).json({message:"Invalid bcrypt compare"});
-      }
-      if(result){
-        jwt.sign({email:email},xyz,(err,token)=>{
-          if(err){
-            return res.status(400).json({message:"Invalid jwt"});
-          }
-          console.log(token);
-          res.status(200).json({token:token});
-        })
-      } else {
-        return res.status(400).json({message:"Invalid password"});
-      }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.post("http://localhost:5000/update-address", {
+        email,
+        address: addressData,
       });
-})
+      alert("Address updated successfully!");
+      navigate("/profile");
+    } catch (error) {
+      console.error("Error updating address:", error);
+      alert("Failed to update address.");
+    }
+  };
 
+  return (
+    <div style={{ textAlign: "center", padding: "20px" }}>
+      <h2>Add Address</h2>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="country" placeholder="Country" onChange={handleChange} required />
+        <input type="text" name="city" placeholder="City" onChange={handleChange} required />
+        <input type="text" name="address1" placeholder="Address Line 1" onChange={handleChange} required />
+        <input type="text" name="address2" placeholder="Address Line 2" onChange={handleChange} />
+        <input type="text" name="zipCode" placeholder="Zip Code" onChange={handleChange} required />
+        <input type="text" name="addressType" placeholder="Address Type (Home/Office)" onChange={handleChange} required />
+        <button type="submit">Save Address</button>
+      </form>
+    </div>
+  );
+};
 
-module.exports = userrouter;
-const mongoose = require('mongoose');
-const { model, Schema } = mongoose;
-
-const userSchema = new Schema({
-  name: {
-    type: String,
-    required: [true, "Please enter your name!"],
-  },
-  email: {
-    type: String,
-    required: [true, "Please enter your email!"],
-  },
-  password: {
-    type: String,
-    required: [true, "Please enter your password"],
-    minLength: [4, "Password should be greater than 4 characters"],
-    select: false,
-  },
-  // phoneNumber: {
-  //   type: Number,
-  // },
-  // addresses: [
-  //   {
-  //     country: {
-  //       type: String,
-  //     },
-  //     city: {
-  //       type: String,
-  //     },
-  //     address1: {
-  //       type: String,
-  //     },
-  //     address2: {
-  //       type: String,
-  //     },
-  //     zipCode: {
-  //       type: Number,
-  //     },
-  //     addressType: {
-  //       type: String,
-  //     },
-  //   }
-  // ],
-  // role: {
-  //   type: String,
-  //   default: "user",
-  // },
-  // avatar: {
-  //   public_id: {
-  //     type: String,
-  //     required: true,
-  //   },
-  //   url: {
-  //     type: String,
-  //     required: true,
-  //   },
-  // },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-  resetPasswordToken: String,
-  resetPasswordTime: Date,
-});
-
-const userModel = model('User', userSchema);
-
-module.exports = userModel;
+export default AddressForm;

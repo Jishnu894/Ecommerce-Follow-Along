@@ -65,3 +65,27 @@ const userSchema = new Schema({
 const User = model('User', userSchema);
 
 module.exports = userModel;
+
+// const {model, Schema} = require('mongoose');
+
+// const productModel = new Schema({
+//   name:{
+//     type:String,
+//     required :[true,"please provide the Name"],
+//   },
+//   stock:{
+//     type:String,
+//     required :[true,"please provide the Details"],
+//   },
+//   dates:{
+//     type:Date,
+//     default :Date.now()
+//   },
+//   ID:{
+//     type:String,
+//     required :[true,"Please fill the Requirement"]
+//   }
+// });
+
+// const product = model("product",productModel);
+// module.exports = product;
