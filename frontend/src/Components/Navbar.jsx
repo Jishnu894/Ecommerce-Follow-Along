@@ -12,6 +12,7 @@ function Navbar() {
                 <div className="flex space-x-4">
                     <NavLink to="/" className="text-white hover:text-gray-400">Home</NavLink>
                     <NavLink to="/productform" className="text-white hover:text-gray-400">Productform</NavLink>
+                    <NavLink to="/my-orders" className="text-white hover:text-gray-400">My Orders</NavLink>
                     <div className="flex space-x-4">
                         <NavLink to="/login" className="text-white hover:text-gray-400">Login</NavLink>
                         <NavLink to="/signup" className="text-white hover:text-gray-400">Signup</NavLink>

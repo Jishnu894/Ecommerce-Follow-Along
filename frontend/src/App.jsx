@@ -4,6 +4,7 @@ import { SignUp } from './Components/SignUp'
 import { Home } from './page/Home'
 import { Productform } from './Components/Productform'
 import Navbar from './Components/Navbar';
+import MyOrders from './page/my-orders';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
         <Route pathe="/contact" element={<div>Contact Page</div>}/>
         <Route path="/login" element={<div>Login Page</div>}/>
         <Route path="/profile" element={<div>Profile Page</div>}/>
+        <Route path="/my-orders" element={<MyOrders/>} />
       </Routes>
 
     </>
