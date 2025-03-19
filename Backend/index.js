@@ -1,29 +1,44 @@
-const express = require('express');
-const { connectDB } = require('./src/Database/db');
-const userRouter = require('./src/Controllers/users');
-const productrouter = require('./src/Controllers/Products');
-const app = express();
+const express=require('express');
+const connectDB = require('./src/Database/db');
+const userModel = require('./src/Model/userModel');
+const productModel = require('./src/Model/Productmodel');
+const userrouter = require('./src/Controllers/user');
+const productrouter = require('./src/Controllers/products');
+const cors = require('cors');
+
+
+const app=express();
+
+app.use(cors())
+
+app.use(express.json());
 
 require('dotenv').config({
-    path: './src/config/.env'
-});
-const port = process.env.PORT || 8080;
-const url = process.env.db_url;
-
-app.listen(port, async() => {
-
-  try{
-    await connectDB(url);
-    console.log(`Server is running on port ${port}`);
-  }
-  catch(error){
-    console.error(error);
-  }
+    path:'./src/config/.env'
 });
 
-app.use('/auth',userRouter)
-app.use('/product',productrouter)
+const PORT=process.env.port || 5000;
+const url=process.env.db_url;
 
-app.get('/', (req, res) => {    
-    res.send('Hello World!');
-});
+app.get('/',(req,res)=>{   
+    res.send('Hello World');
+})
+
+
+
+app.use('/auth',userrouter);
+
+app.listen(PORT,async()=>{
+
+try{
+   await connectDB(url);
+    console.log(`Server is running on port ${PORT}`);
+}
+catch(err){
+    console.log(err);
+}
+    
+})
+app.use('order', orderrouter);
+app.use('/auth',userrouter);
+app.use('/product',productrouter);
