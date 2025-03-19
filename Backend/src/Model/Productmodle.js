@@ -1,50 +1,89 @@
-const {model, Schema} = require('mongoose');
+const {model} = require('mongoose');
+const mongoose = require('mongoose');
 
-const productSchema = new Schema({
-    name: {
+const userSchema =new mongoose.Schema ({
+    name:{
         type: String,
-        required: [true, "Please provide the product name"],
-    },
-    description: {
+        required: [true, "Please enter your name!"],
+      },
+      email:{
         type: String,
-        required: [true, "Please provide the product description"],
-    },
-    category: {
+        required: [true, "Please enter your email!"],
+      },
+      password:{
         type: String,
-        required: [true, "Please provide the product category"],
-    },
-    tags: {
-        type: [String], 
-        default: [],
-    },
-    price: {
-        type: Number,
-        required: [true, "Please provide the product price"],
-    },
-    stock: {
-        type: Number,
-        required: [true, "Please provide the product stock"],
-    },
-    email: {
-        type: String,
-        required: [true, "Please provide an email"],
-        match: [/.+@.+\..+/, "Please provide a valid email address"],
-    },
-    images: {
-        type: [String], 
-        required: [true, "Please upload product images"],
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now, 
-    },
-},
-{
-    timestamps: true,
-}
+        required: [true, "Please enter your password"],
+        minLength: [4, "Password should be greater than 4 characters"],
+        
+      },
 
-);
+      cart:[
+        {
+          productId:{
+            type:String,
+            unique:true,
+            required:true
+            },
+            productName:{
+              type:String,
+              required:true,
+              unique:true
+              },
+              quantity:{
+                type:Number,
+                min:1,
+                required:true
+              }
+        }
 
+      ]
+    //   phoneNumber:{
+    //     type: Number,
+    //   },
+      addresses:[
+        {
+          country: {
+            type: String,
+          },
+          city:{
+            type: String,
+          },
+          address1:{
+            type: String,
+          },
+          address2:{
+            type: String,
+          },
+          zipCode:{
+            type: Number,
+          },
+          addressType:{
+            type: String,
+          },
+        }
+      ],
+    //   role:{
+    //     type: String,
+    //     default: "user",
+    //   },
+    //   avatar:{
+    //     public_id: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     url: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //  },
+    //  createdAt:{
+    //   type: Date,
+    //   default: Date.now(),
+    //  },
+    //  resetPasswordToken: String,
+    //  resetPasswordTime: Date,
+    });
 
-const productModel = model('Product', productSchema);
-module.export = productModel;
+    const userModel=model('User',userSchema);  
+    
+    module.exports=userModel;
